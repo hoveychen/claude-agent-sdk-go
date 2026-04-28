@@ -17,6 +17,9 @@ const (
 
 	// Partial message streaming type
 	MessageTypeStreamEvent = "stream_event"
+
+	// CLI rate-limit telemetry frame.
+	MessageTypeRateLimitEvent = "rate_limit_event"
 )
 
 // Content block type constants

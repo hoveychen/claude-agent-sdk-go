@@ -89,6 +89,14 @@ func (p *Parser) ParseMessage(data map[string]any) (shared.Message, error) {
 		}, nil
 	case shared.MessageTypeStreamEvent:
 		return p.parseStreamEventMessage(data)
+	case shared.MessageTypeRateLimitEvent:
+		// CLI telemetry frame announcing rate-limit usage; surface as a
+		// SystemMessage so consumers can observe the payload via Data
+		// without the iterator aborting on an unknown type.
+		return &shared.SystemMessage{
+			Subtype: shared.MessageTypeRateLimitEvent,
+			Data:    data,
+		}, nil
 	default:
 		return nil, shared.NewMessageParseError(
 			fmt.Sprintf("unknown message type: %s", msgType),
